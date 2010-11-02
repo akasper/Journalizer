@@ -1,0 +1,16 @@
+To use:
+Set lib/journal_app.rb to executable
+Run it!
+
+I recommend running this whenever your machine boots.
+
+Journalizer is an application that reminds you, every half hour, to make a note of what you're doing. It logs what you're doing (with timestamps) so you can look back and:
+1. Show your boss how awesome you are.
+2. Remind yourself how much you got done.
+3. File the pages away.
+
+TODO: 
+* Get Deserialization working and fix logging
+* Add the ability to log externally
+* Add the ability to Tweet or Yammer
+* Abstract out hard-coded gorwlnotify (and generalize prompting)
