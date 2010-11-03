@@ -11,6 +11,9 @@ Journalizer is an application that reminds you, every half hour, to make a note 
 
 TODO: 
 * Get Deserialization working and fix logging
-* Add the ability to log externally
-* Add the ability to Tweet or Yammer
+* Clean up serialization process. Use a DB or remove duplicates in a journal file.
+* Add the ability to log to Twitter or Yammer
 * Abstract out hard-coded gorwlnotify (and generalize prompting)
+* Generalize input for GUI app
+* Add ability to pipe in from other apps. (Auto pipe in Git commit messages with some notes)
+* Add tagging
