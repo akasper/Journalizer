@@ -26,7 +26,7 @@ class JournalApp
   
   def read
     @input = gets
-    exit if @input =~ /q/i
+    exit if @input =~ /^\s*q\s*$/i
   end
   
   def write
@@ -43,7 +43,8 @@ end
 @app = JournalApp.new
 END {puts "\nExiting..."; @app.journal.save!}
 begin
- @app.run
+  @app.run
+#When the user hits Ctrl + C, exit a bit more gracefully...my
 rescue SignalException => e
   exit
 end
