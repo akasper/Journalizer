@@ -1,25 +1,27 @@
 #!/usr/bin/env ruby
 require File.join(File.dirname(__FILE__), 'journal')
+
 class JournalApp
-  attr_accessor :input
+  POLLING_INTERVAL = 15.0
+  attr_accessor :input, :next_notification
   attr_reader :interval, :journal
   
   def initialize(interval=1800)
     @interval = interval
+    @next_notification = Time.now
     @journal = Journal.new
   end
   
   def run
     STDOUT.sync = true
     puts "To quit, enter 'Q' at the command prompt, or type [Ctrl + C]."
-    #Reminder thread
-    reminder = Thread.new { while true; wait; prompt; end }
+    reminder = Thread.new { wait }
     main     = Thread.new { while true; read; write; end }
     reminder.join
     main.join
   end
   
-  def prompt
+  def notify
     growl_notify("Time for a journal entry.")
   end
   
@@ -30,20 +32,25 @@ class JournalApp
   
   def write
     @journal << Entry.new(@input, Time.now)
-    growl_notify("Next reminder at #{(Time.now + wait_time).strftime('%H:%M')}.")
+    
+    #we make this the #write's responsibility to ensure that a 
+    #user is not prompted if he has already written an entry
+    #during the last interval
+    @next_notification = Time.now + interval
+    
+    growl_notify("Next reminder at #{(@next_notification).strftime('%H:%M')}.")
   end
   
   def wait
-    sleep(wait_time)
+    while true
+      notify if Time.now > @next_notification
+      sleep POLLING_INTERVAL
+    end
   end  
   
   private
   def growl_notify(message)
     `growlnotify Journal --message "#{message}"`
-  end
-  
-  def wait_time
-    @interval - Time.now.to_i % @interval
   end
 end
  
