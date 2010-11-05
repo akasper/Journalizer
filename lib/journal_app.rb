@@ -34,7 +34,7 @@ class JournalApp
   end
   
   def wait
-    `sleep #{wait_time.to_s}`
+    sleep(wait_time)
   end  
   
   private
@@ -48,7 +48,7 @@ class JournalApp
 end
  
 @app = JournalApp.new
-END {puts "\nExiting..."; @app.journal.save!}
+END {puts "\nExiting..."; @app.journal.save!; exit}
 begin
   @app.run
 #When the user hits Ctrl + C, exit a bit more gracefully...
