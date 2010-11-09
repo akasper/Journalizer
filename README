@@ -17,3 +17,4 @@ TODO:
 * Generalize input for GUI app
 * Add ability to pipe in from other apps. (Auto pipe in Git commit messages with some notes)
 * Add tagging
+* Add custom reminders
