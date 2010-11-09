@@ -17,6 +17,9 @@ describe Journal do
     it 'returns a collection' do
       @journal.entries.should be_a(Array)
     end
+    it 'is empty by default' do
+      @journal.entries.length.should == 0
+    end
     it 'sorts entries by time' do
       @journal << (@entry1 = Entry.new('I\'m spooked out!', HALLOWEEN))
       @journal << (@entry2 = Entry.new('I am making resolutions', NEW_YEAR))
