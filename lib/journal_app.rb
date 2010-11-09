@@ -36,14 +36,15 @@ class JournalApp
     #we make this the #write's responsibility to ensure that a 
     #user is not prompted if he has already written an entry
     #during the last interval
-    @next_notification = Time.now + interval
-    
-    growl_notify("Next reminder at #{(@next_notification).strftime('%H:%M')}.")
+    update_notification
   end
   
   def wait
     while true
-      notify if Time.now > @next_notification
+      if Time.now > @next_notification      
+        update_notification
+        notify
+      end
       sleep POLLING_INTERVAL
     end
   end  
@@ -51,6 +52,10 @@ class JournalApp
   private
   def growl_notify(message)
     `growlnotify Journal --message "#{message}"`
+  end
+  def update_notification
+    @next_notification = Time.now + interval    
+    growl_notify("Next reminder at #{(@next_notification).strftime('%H:%M')}.")
   end
 end
  
