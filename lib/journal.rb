@@ -15,10 +15,7 @@ class Journal
   def save!(directory = File.join(File.expand_path('~'), '.journal') )
     FileUtils.mkdir_p(directory) 
     @entries.each do |entry|
-      path = File.join(directory, entry.file_name)
-      File.new(path, 'w') unless File.exists?(path)
-      file = File.open(path, 'a')
-      file << entry.to_s
+      File.open(File.join(directory, entry.file_name), 'a') {|f| f.write(entry.to_s) }
     end
   end
   
