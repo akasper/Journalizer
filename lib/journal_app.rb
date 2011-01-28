@@ -6,9 +6,9 @@ class JournalApp
   attr_accessor :input, :next_notification
   attr_reader :interval, :journal
   
-  def initialize(interval=1800)
+  def initialize(interval=600)
     @interval = interval
-    @next_notification = Time.now
+    @next_notification = Time.now + @interval
     @journal = Journal.new
   end
   
@@ -37,6 +37,7 @@ class JournalApp
     #user is not prompted if he has already written an entry
     #during the last interval
     update_notification
+    growl_notify("Next reminder at #{(@next_notification).strftime('%H:%M')}.")
   end
   
   def wait
@@ -54,8 +55,7 @@ class JournalApp
     `growlnotify Journal --message "#{message}"`
   end
   def update_notification
-    @next_notification = Time.now + interval    
-    growl_notify("Next reminder at #{(@next_notification).strftime('%H:%M')}.")
+    @next_notification = Time.now + @interval
   end
 end
  
