@@ -1,10 +1,14 @@
 require File.join(File.dirname(__FILE__), 'entry')
-require 'fileutils'
+require File.join(File.dirname(__FILE__), 'file_output_stream')
+
+# require 'fileutils'
 class Journal
-  attr_reader :entries
+  attr_reader :entries, :input_stream, :output_stream
   
-  def initialize(path=nil)
-    path ? read(path) : @entries = []
+  def initialize(output_stream=FileOutputStream.new, input_stream=STDIN)
+    @input_stream = input_stream
+    @output_stream = output_stream
+    @entries = []
   end
   
   def << entry
@@ -12,11 +16,7 @@ class Journal
     @entries.sort! {|x, y| x.time - y.time}
   end
   
-  def save!(directory = File.join(File.expand_path('~'), '.journal') )
-    FileUtils.mkdir_p(directory) 
-    @entries.each do |entry|
-      File.open(File.join(directory, entry.file_name), 'a') {|f| f.write(entry.to_s) }
-    end
+  def save!
+    @entries.each { |entry| output_stream.write(entry) }
   end
-  
 end
