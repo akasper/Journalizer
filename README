@@ -10,6 +10,8 @@ Journalizer is an application that reminds you, every half hour, to make a note 
 3. File the pages away.
 
 TODO: 
+* Make I/O the role of the JournalApp, not the Journal. 
+* Generalize reminders. 
 * Get Deserialization working and fix logging
 * Clean up serialization process. Use a DB or remove duplicates in a journal file.
 * Add the ability to log to Twitter or Yammer
@@ -17,4 +19,4 @@ TODO:
 * Generalize input for GUI app
 * Add ability to pipe in from other apps. (Auto pipe in Git commit messages with some notes)
 * Add tagging
-* Add custom reminders
+* Add custom reminders (#TODO tag?) 
