@@ -27,7 +27,7 @@ class JournalApp
   
   def read
     print " > "; @input = gets
-    exit if @input =~ /^\s*(q|exit)\s*$/i
+    exit if !@input or @input =~ /^\s*(q|exit)\s*$/i
   end
   
   def write
