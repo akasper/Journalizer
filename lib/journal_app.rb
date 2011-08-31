@@ -3,10 +3,11 @@ require File.join(File.dirname(__FILE__), 'journal')
 
 class JournalApp
   POLLING_INTERVAL = 15.0
+  INSTRUCTIONS = "To quit, enter 'Q' at the command prompt, or type [Ctrl + C]."
   attr_accessor :input, :next_notification
   attr_reader :interval, :journal
   
-  def initialize(interval=600)
+  def initialize(interval=30)
     @interval = interval
     @next_notification = Time.now + @interval
     @journal = Journal.new
@@ -14,11 +15,18 @@ class JournalApp
   
   def run
     STDOUT.sync = true
-    puts "To quit, enter 'Q' at the command prompt, or type [Ctrl + C]."
-    reminder = Thread.new { wait }
-    main     = Thread.new { while true; read; write; end }
-    reminder.join
-    main.join
+    puts INSTRUCTIONS
+
+    main_thread.join
+    reminder_thread.join
+  end
+
+  def reminder_thread
+    Thread.new { wait }
+  end
+
+  def main_thread
+    Thread.new { while true; read; write; end }
   end
   
   def notify
@@ -26,8 +34,8 @@ class JournalApp
   end
   
   def read
-    print " > "; @input = gets
-    exit if !@input or @input =~ /^\s*(q|exit)\s*$/i
+    @input = Readline.readline(' > ', true)
+    exit if ( !@input || @input =~ /^\s*(q|exit)\s*$/i )
   end
   
   def write
@@ -50,10 +58,11 @@ class JournalApp
     end
   end  
   
-  private
+private
   def growl_notify(message)
     `growlnotify Journal --message "#{message}"`
   end
+
   def update_notification
     @next_notification = Time.now + @interval
   end

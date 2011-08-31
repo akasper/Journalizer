@@ -3,6 +3,7 @@ GEM
   specs:
     diff-lcs (1.1.2)
     rake (0.8.7)
+    rb-readline (0.4.1)
     rspec (2.0.1)
       rspec-core (~> 2.0.1)
       rspec-expectations (~> 2.0.1)
@@ -19,4 +20,5 @@ PLATFORMS
 
 DEPENDENCIES
   rake
+  rb-readline
   rspec
