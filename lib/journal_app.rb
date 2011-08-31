@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'readline'
 require File.join(File.dirname(__FILE__), 'journal')
 
 class JournalApp
